@@ -80,12 +80,26 @@ const viewAllRoles = () => {
 const getAllEmployees = () => {
     myQuery(qStringViewAllEmployees);
 };
+const updateQuery = (qString) =>{
+    db.query(qString,(err,res)=>{
+        if(err) throw err;
+        console.log('Sucessful update the record!');
+    });
+};
 
+const delRecord = (qString) =>{
+    db.query(qString,(err,res)=>{
+        if(err) throw err;
+        console.log('Sucessful remove the record!');
+    });
+};
 module.exports = {
     rawTable,
     myQuery,
     getAllEmployees,
     viewAllRoles,
     retrieveData,
-    addQuery
+    addQuery,
+    updateQuery,
+    delRecord
 };
