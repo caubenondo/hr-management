@@ -1,20 +1,30 @@
 const mysql = require("mysql2");
-const cTable = require('console.table')
+const cTable = require("console.table"); 
+const express = require("express");
+
 // Connect to database
-const db = mysql.createConnection({
-    host: "localhost",
-    // MySQL username
-    user: "root",
-    // MySQL password
-    password: "rootroot",
-    database: "employees",
-});
+const db = mysql.createConnection(
+    {
+        host: "localhost",
+        // MySQL username
+        user: "root",
+        // MySQL password
+        password: "rootroot",
+        database: "employees",
+    },
+    console.log(`Connected to the employee database.`)
+);
 
 // CRAFTED QUERIES
 const qStringViewAllEmployees = `
     SELECT
-        e.id, e.first_name, e.last_name, role.title, department.name AS department, role.salary, 
-        CONCAT(m.first_name, ' ', m.last_name) AS 'manager'
+        e.id AS ID, 
+        e.first_name AS 'FIRST NAME', 
+        e.last_name AS 'LAST NAME', 
+        role.title AS 'JOB TITLE', 
+        department.name AS DEPARTMENT, 
+        role.salary AS 'SALARY', 
+        IFNULL(CONCAT(m.first_name, ' ', m.last_name), '') AS 'MANAGER'
     FROM
         employee m
     RIGHT JOIN employee e ON
@@ -25,7 +35,7 @@ const qStringViewAllEmployees = `
             ON role.department_id = department.id
         ) 
         ON e.role_id = role.id
-    ORDER BY e.id
+    ORDER BY e.id;
 `;
 
 const rawTable = async (table) => {
@@ -36,21 +46,46 @@ const rawTable = async (table) => {
     });
 };
 
-const myQuery = async (qString) => {
-    db.query(qString, async (err, res) => {
+const addQuery =  (qString) =>{
+    db.query(qString,(err,res)=>{
         if (err) throw err;
-        console.table('fancy', await res);
+        console.log('Success added!');
     });
 };
-const retrieveData = async (qString) => {
-    db.query(qString, async (err,res)=>{
-        if(err) throw err;
-        return await res
-    })
-}
 
-const getAllEmployees = async () => {
+
+const myQuery = (qString) => {
+    db.query(qString, (err, res) => {
+        if (err) throw err;
+        console.clear();
+        console.table(res);
+    });
+};
+
+const retrieveData = (qString) => {
+    return (data = db
+        .promise()
+        .query(qString)
+        .then(([rows]) => {
+            return rows;
+        }));
+};
+
+const viewAllRoles = () => {
+    myQuery(
+        "select salary as SALARY, title as TITLE , department.name as DEPARTMENT from role join department on role.department_id = department.id order by salary"
+    );
+};
+
+const getAllEmployees = () => {
     myQuery(qStringViewAllEmployees);
 };
 
-module.exports = { rawTable, myQuery, getAllEmployees };
+module.exports = {
+    rawTable,
+    myQuery,
+    getAllEmployees,
+    viewAllRoles,
+    retrieveData,
+    addQuery
+};

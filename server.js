@@ -1,33 +1,27 @@
 // Package Dependencies
 // actually we don't need express since this run on Node back end and SQL
 
+
 const inquirer = require("inquirer");
+const { mainMenu } = require("./helpers/controlHandler");
 
 // helper command
-const {rawTable,myQuery, getAllEmployees} = require('./helpers/dbHandlers');
+const { getAllEmployees, myQuery, retrieveData } = require("./helpers/dbHandlers");
+
+// getAllEmployees();
+
+mainMenu();
 
 
 
 
-/* // working query
-const qString2 = `
-    SELECT  employee.id, 
-            first_name,
-            last_name,
-            title,
-            salary,
-            name  
-    FROM employee
-    JOIN (
-        role 
-        JOIN department 
-            ON role.department_id = department.id
-        ) 
-        ON employee.role_id = role.id
-    ORDER BY employee.id
-`;
-myQuery(qString2); */
+// success passing data
+// retrieveData('select title from role').then((data)=>console.log(data));
 
 
 
-getAllEmployees()
+// myQuery('select * from department')
+
+// myQuery('delete from department where name="marketing"')
+
+// myQuery('select * from department')
