@@ -12,7 +12,8 @@ This is a content management system (CMS), in this case, for HR management. This
 -   [Usage](#Usage)
 -   [License](#License)
 -   [Contributing](#Contributing)
--   [Tests](#Tests)
+-   [Models](#Models)
+-   [Application in Action](#Tests)
 -   [Questions](#Questions)
 
 ## Installation <a name='Installation'></a>
@@ -47,6 +48,9 @@ The project is under [MIT](https://opensource.org/licenses/MIT) license.
 ## Contributing <a name='Contributing'></a>
 
 If you want to contribute to this repo, please email me at the address at the bottom of this page.
+
+## Models <a name='#Models'></a>
+![Database Diagram](./Given/Assets/12-sql-homework-demo-01.png)
 
 ## App in action <a name='Tests'></a>
 
