@@ -49,7 +49,7 @@ The project is under [MIT](https://opensource.org/licenses/MIT) license.
 
 If you want to contribute to this repo, please email me at the address at the bottom of this page.
 
-## Models <a name='#Models'></a>
+## Models <a name='Models'></a>
 ![Database Diagram](./Given/Assets/12-sql-homework-demo-01.png)
 
 ## App in action <a name='Tests'></a>
