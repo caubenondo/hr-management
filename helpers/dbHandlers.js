@@ -37,7 +37,7 @@ const qStringViewAllEmployees = `
         ON e.role_id = role.id
     ORDER BY e.id;
 `;
-
+// for debug purpose
 const rawTable = async (table) => {
     db.query(`SELECT * FROM ${table}`, async (err, res) => {
         if (err) throw err;
@@ -46,6 +46,7 @@ const rawTable = async (table) => {
     });
 };
 
+// use this function for adding role,dept,employee
 const addQuery =  (qString) =>{
     db.query(qString,(err,res)=>{
         if (err) throw err;
@@ -53,7 +54,7 @@ const addQuery =  (qString) =>{
     });
 };
 
-
+// use this table for general view purpose since it will clear the console view and display the main table
 const myQuery = (qString) => {
     db.query(qString, (err, res) => {
         if (err) throw err;
@@ -62,6 +63,7 @@ const myQuery = (qString) => {
     });
 };
 
+// Will return result as promise for data handling on the front end
 const retrieveData = (qString) => {
     return (data = db
         .promise()
@@ -71,15 +73,19 @@ const retrieveData = (qString) => {
         }));
 };
 
+// simple select view all role query
 const viewAllRoles = () => {
     myQuery(
         "select salary as SALARY, title as TITLE , department.name as DEPARTMENT from role join department on role.department_id = department.id order by salary"
     );
 };
 
+// show me the Big picture
 const getAllEmployees = () => {
     myQuery(qStringViewAllEmployees);
 };
+
+// not much different from other query but it will show update console
 const updateQuery = (qString) =>{
     db.query(qString,(err,res)=>{
         if(err) throw err;
@@ -87,12 +93,16 @@ const updateQuery = (qString) =>{
     });
 };
 
+// delete query
 const delRecord = (qString) =>{
     db.query(qString,(err,res)=>{
         if(err) throw err;
         console.log('Sucessful remove the record!');
     });
 };
+
+
+// export functions
 module.exports = {
     rawTable,
     myQuery,

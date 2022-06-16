@@ -1,6 +1,16 @@
 const inquirer = require("inquirer");
 const query = require("./dbHandlers");
 
+/* METHOD:
+    - Each handler of multiple choices prompt is
+        -  connect to database
+        - Retrieve the data of on field for inquirer list choices
+        - take user input and use it for the next mysql 
+        - retrieve final data or another set of questions
+*/
+
+
+// default query string of big picture table
 const displayETable = `SELECT
                         e.id AS ID, 
                         e.first_name AS 'FIRST NAME', 
@@ -20,6 +30,7 @@ const displayETable = `SELECT
                         ) 
                         ON e.role_id = role.id`;
 
+// main menu which call itself unless user choose quit
 const mainMenu = () => {
     const menu = [
         new inquirer.Separator("----EMPLOYEES 🤓-----"),
@@ -88,7 +99,7 @@ const mainMenu = () => {
                     delDepartment();
                     break;
                 case "BUDGET by DEPT":
-                    budgetByDept()
+                    budgetByDept();
                     break;
                 default:
                     console.log("Good Bye");
@@ -97,7 +108,7 @@ const mainMenu = () => {
             }
         });
 };
-
+// function handling the ADD Dept choice
 const addDepartment = async () => {
     // need role
     console.log("add dept func call");
@@ -129,6 +140,8 @@ const addDepartment = async () => {
         });
     mainMenu();
 };
+
+// Function handle the ADD ROLE
 const addRole = async () => {
     // need title, salary, department_id
     console.log("add dept func call");
@@ -171,6 +184,7 @@ const addRole = async () => {
     mainMenu();
 };
 
+// Function handles the ADD EMPLOYEE
 const addEmployee = async () => {
     // need first_name, last_name, role_id, manager_id
 
@@ -263,6 +277,7 @@ const updateDepartment = () => {
 };
 const updateRole = () => {};
 
+// function handle the UPDATE ROLE
 const updateEmployeeRole = async () => {
     const nameChoices = await query
         .retrieveData("select id, first_name,last_name from employee;")
@@ -302,7 +317,9 @@ const updateEmployeeRole = async () => {
     mainMenu();
 };
 
+// function handle the DEL DEPT
 const delDepartment = async () => {
+
     const options = await query
         .retrieveData("select id, name from department order by id;")
         .then((data) => data.map((row) => `${row.id} ${row.name}`));
@@ -323,6 +340,8 @@ const delDepartment = async () => {
         });
     mainMenu();
 };
+
+// Function handle the DEL ROLE
 const delRole = async () => {
     const options = await query
         .retrieveData("select id, title from role order by id;")
@@ -345,6 +364,7 @@ const delRole = async () => {
     mainMenu();
 };
 
+// function handle the DEL EMPLOYEE
 const delEmployee = async () => {
     const eOptions = await query
         .retrieveData(
@@ -370,6 +390,8 @@ const delEmployee = async () => {
         });
     mainMenu();
 };
+
+// FUNCTION handle the VIEW BY MANAGERS
 const viewEbyM = async () => {
     const managers = await query
         .retrieveData(
@@ -406,8 +428,9 @@ const viewEbyM = async () => {
     mainMenu();
 };
 
-const budgetByDept = () =>{
-
+// FUNCTION handle to calculate the budget of each department by
+// COUNTING the salary of each department
+const budgetByDept = () => {
     const qString = `
         SELECT
             department.name AS DEPARTMENT, 
@@ -424,7 +447,7 @@ const budgetByDept = () =>{
         ON e.role_id = role.id
         group by    department.name
         order by sum(role.salary) DESC
-    ;`
+    ;`;
     query.myQuery(qString);
     mainMenu();
 };
