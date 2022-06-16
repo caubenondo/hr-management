@@ -15,13 +15,3 @@ mainMenu();
 
 
 
-// success passing data
-// retrieveData('select title from role').then((data)=>console.log(data));
-
-
-
-// myQuery('select * from department')
-
-// myQuery('delete from department where name="marketing"')
-
-// myQuery('select * from department')
