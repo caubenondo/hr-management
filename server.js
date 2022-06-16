@@ -5,10 +5,6 @@
 const inquirer = require("inquirer");
 const { mainMenu } = require("./helpers/controlHandler");
 
-// helper command
-const { getAllEmployees, myQuery, retrieveData } = require("./helpers/dbHandlers");
-
-// getAllEmployees();
 
 mainMenu();
 
